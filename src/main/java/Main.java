@@ -36,7 +36,6 @@ public class Main {
 
         } catch (IOException | InterruptedException e) {
             System.err.println("An error occurred while contacting the API.");
-            e.printStackTrace();
         }
     }
 }
