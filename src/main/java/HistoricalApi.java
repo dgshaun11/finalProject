@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class HistoricalApi {
     public static void main(String[] args) throws IOException, InterruptedException {
         String apiKey = "Szoc9xAzpYbVQ62qll_DXS8kA_Y6pRXI"; // ← Replace with your Polygon.io key
-        String symbol = "AAPL";         // ← Change ticker if needed
+        String symbol = "AAPL"; // ← Change ticker if needed
 
         LocalDate endDate = LocalDate.now();
         LocalDate startDate = endDate.minusDays(30);
