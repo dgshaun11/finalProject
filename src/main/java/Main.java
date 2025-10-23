@@ -10,7 +10,7 @@ public class Main {
             Scanner scanner = new Scanner(System.in);
             System.out.print("Enter the name of a stock:");
             String companyName = scanner.nextLine();
-            System.out.println("Enter your average price:");
+            System.out.print("Enter your average price:");
             double averagePrice = scanner.nextDouble();
 
             try {
