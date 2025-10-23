@@ -32,6 +32,8 @@ public class Main {
                     return;
                 }
 
+
+
                 Stock stock = new Stock(companyName, averagePrice, ticker, price);
 
                 System.out.println("\n--- Stock Information ---");

@@ -4,7 +4,7 @@ public class Stock {
     private final String tickerName;
     private final double averagePrice;
 
-    public Stock(String stockName, double stockPrice, String tickerName, double averagePrice){
+    public Stock(String stockName, double stockPrice, String tickerName, double averagePrice) {
         this.stockName = stockName;
         this.stockPrice = stockPrice;
         this.tickerName = tickerName;
@@ -25,9 +25,16 @@ public class Stock {
 
     public double getAveragePrice(){return averagePrice; }
 
+    public double getPercentChange(){
+        double percentChange = averagePrice - stockPrice;
+        return (percentChange / stockPrice) * 100;
+    }
+
     @Override
-    public String toString(){
-        return String.format("Company: %s%nTicker: %s%nAverage Price: $%.2f%nCurrent Price: $%.2f",
-                stockName, tickerName, stockPrice, averagePrice);
+    public String toString() {
+        return String.format(
+                "Company: %s%nTicker: %s%nAverage Price: $%.2f%nCurrent Price: $%.2f%nPercent Change: %.2f%%",
+                stockName, tickerName, stockPrice, averagePrice, getPercentChange()
+        );
     }
 }
