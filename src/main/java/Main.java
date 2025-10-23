@@ -8,8 +8,11 @@ public class Main {
         Portfolio portfolio = new Portfolio();
         while (true) {
             Scanner scanner = new Scanner(System.in);
-            System.out.print("Enter the name of a stock:");
+            System.out.print("Enter the name of a stock: (or q to quit)");
             String companyName = scanner.nextLine();
+            if (companyName.equals("q")) {
+                break;
+            }
             System.out.print("Enter your average price:");
             double averagePrice = scanner.nextDouble();
 
