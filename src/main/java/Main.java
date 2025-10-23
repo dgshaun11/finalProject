@@ -1,19 +1,43 @@
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
+
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         String apiKey = "yp6s6jV7pkarYtIzWzlkF68pn3Jtzi57"; // polygon api key
         StockApiService apiService = new StockApiService(apiKey);
         Portfolio portfolio = new Portfolio();
+
+        PrintStream console = System.out;
+
+        PrintStream fileOut = new PrintStream(new FileOutputStream("portfolio.txt", true));
+
+
+        PrintStream dualOutput = new PrintStream(new OutputStream() {
+            @Override
+            public void write(int b) throws IOException {
+                console.write(b);
+                fileOut.write(b);
+            }
+
+            @Override
+            public void flush() throws IOException {
+                console.flush();
+                fileOut.flush();
+            }
+        }, true);
+
+        System.setOut(dualOutput);
+
+        Scanner scanner;
         while (true) {
-            Scanner scanner = new Scanner(System.in);
-            System.out.print("Enter the name of a stock: (or q to quit)");
+            scanner = new Scanner(System.in);
+            System.out.print("Enter the name of a stock: (q to quit) ");
             String companyName = scanner.nextLine();
             if (companyName.equals("q")) {
                 break;
             }
-            System.out.print("Enter your average price:");
+            System.out.print("Enter your average price: ");
             double averagePrice = scanner.nextDouble();
 
             try {
@@ -36,7 +60,6 @@ public class Main {
                 }
 
 
-
                 Stock stock = new Stock(companyName, averagePrice, ticker, price);
 
                 System.out.println("\n--- Stock Information ---");
@@ -48,5 +71,10 @@ public class Main {
                 System.err.println("An error occurred while connecting to the API.");
             }
         }
+        System.setOut(console);
+        fileOut.close();
+        scanner.close();
     }
-}
+        }
+
+
