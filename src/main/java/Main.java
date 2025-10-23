@@ -3,14 +3,15 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        // IMPORTANT: Replace this with your actual Polygon.io API key.
-        String apiKey = "yp6s6jV7pkarYtIzWzlkF68pn3Jtzi57";
+        String apiKey = "yp6s6jV7pkarYtIzWzlkF68pn3Jtzi57"; // polygon api key
         StockApiService apiService = new StockApiService(apiKey);
         Portfolio portfolio = new Portfolio();
         while (true) {
             Scanner scanner = new Scanner(System.in);
             System.out.print("Enter the name of a stock:");
             String companyName = scanner.nextLine();
+            System.out.println("Enter your average price:");
+            double averagePrice = scanner.nextDouble();
 
             try {
                 System.out.println("Searching for ticker...");
@@ -31,7 +32,7 @@ public class Main {
                     return;
                 }
 
-                Stock stock = new Stock(companyName, price, ticker);
+                Stock stock = new Stock(companyName, averagePrice, ticker, price);
 
                 System.out.println("\n--- Stock Information ---");
                 System.out.println(stock + "\n");
