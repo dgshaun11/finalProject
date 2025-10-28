@@ -1,3 +1,4 @@
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -26,9 +27,7 @@ public class StockApiService {
 
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        JsonNode root = mapper.readTree(response.body());
-        JsonNode results = root.path("results");
+        JsonNode results = httpResponseArrayToJsonNode(response);
 
         if (results.isArray() && !results.isEmpty()) {
             return results.get(0).get("ticker").asText();
@@ -43,13 +42,16 @@ public class StockApiService {
 
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        JsonNode root = mapper.readTree(response.body());
-        JsonNode results = root.path("results");
+        JsonNode results = httpResponseArrayToJsonNode(response);
 
         if (results.isArray() && !results.isEmpty()) {
             return results.get(0).get("c").asDouble();
         }
         return -1.0;
+    }
+
+    public JsonNode httpResponseArrayToJsonNode(HttpResponse<String> response) throws JsonProcessingException {
+        JsonNode root = mapper.readTree(response.body());
+        return root.path("results");
     }
 }

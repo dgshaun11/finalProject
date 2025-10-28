@@ -27,7 +27,7 @@ public class Stock {
 
     public double getPercentChange(){
         double percentChange = averagePrice - stockPrice;
-        return (percentChange / stockPrice) * 100;
+        return ((double) ((int) ((percentChange / stockPrice) * 100000)))/1000;
     }
 
     @Override

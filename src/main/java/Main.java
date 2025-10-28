@@ -1,7 +1,6 @@
 import java.io.*;
 import java.util.Scanner;
 
-
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
         String apiKey = "yp6s6jV7pkarYtIzWzlkF68pn3Jtzi57"; // polygon api key
@@ -11,7 +10,6 @@ public class Main {
         PrintStream console = System.out;
 
         PrintStream fileOut = new PrintStream(new FileOutputStream("portfolio.txt", true));
-
 
         PrintStream dualOutput = new PrintStream(new OutputStream() {
             @Override
@@ -59,7 +57,6 @@ public class Main {
                     return;
                 }
 
-
                 Stock stock = new Stock(companyName, averagePrice, ticker, price);
 
                 System.out.println("\n--- Stock Information ---");
@@ -75,6 +72,4 @@ public class Main {
         fileOut.close();
         scanner.close();
     }
-        }
-
-
+}
