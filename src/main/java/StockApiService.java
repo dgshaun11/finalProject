@@ -1,4 +1,5 @@
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.util.JsonParserSequence;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -24,10 +25,7 @@ public class StockApiService {
         String url = String.format(
                 "https://api.polygon.io/v3/reference/tickers?search=%s&market=stocks&type=CS&active=true&apiKey=%s",
                 encodedCompanyName, apiKey);
-
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        JsonNode results = httpResponseArrayToJsonNode(response);
+        JsonNode results = getApiResultsForCompany(url);
 
         if (results.isArray() && !results.isEmpty()) {
             return results.get(0).get("ticker").asText();
@@ -39,10 +37,7 @@ public class StockApiService {
         String url = String.format(
                 "https://api.polygon.io/v2/aggs/ticker/%s/prev?adjusted=true&apiKey=%s",
                 ticker, apiKey);
-
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        JsonNode results = httpResponseArrayToJsonNode(response);
+        JsonNode results = getApiResultsForCompany(url);
 
         if (results.isArray() && !results.isEmpty()) {
             return results.get(0).get("c").asDouble();
@@ -53,5 +48,11 @@ public class StockApiService {
     public JsonNode httpResponseArrayToJsonNode(HttpResponse<String> response) throws JsonProcessingException {
         JsonNode root = mapper.readTree(response.body());
         return root.path("results");
+    }
+
+    public JsonNode getApiResultsForCompany(String url) throws IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        return httpResponseArrayToJsonNode(response);
     }
 }
