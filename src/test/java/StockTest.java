@@ -5,7 +5,7 @@ public class StockTest {
     @Test
     public void testIfGetPriceReturnsCorrectValue(){
         Stock stock = new Stock("Apple",260, "APPL", 400);
-        Assertions.assertEquals(260, stock.getStockPrice());
+        Assertions.assertEquals(260, stock.getUserAveragePrice());
     }
 
     @Test
@@ -23,7 +23,7 @@ public class StockTest {
     @Test
     public void testIfGetSAveragePriceReturnsCorrectValue(){
         Stock stock = new Stock("Apple", 260, "APPL", 400);
-        Assertions.assertEquals(400, stock.getAveragePrice());
+        Assertions.assertEquals(400, stock.getStockPrice());
     }
 
     @Test
