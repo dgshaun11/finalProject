@@ -13,13 +13,13 @@ public class Main {
 
         PrintStream dualOutput = new PrintStream(new OutputStream() {
             @Override
-            public void write(int b) throws IOException {
+            public void write(int b)   {
                 console.write(b);
                 fileOut.write(b);
             }
 
             @Override
-            public void flush() throws IOException {
+            public void flush()   {
                 console.flush();
                 fileOut.flush();
             }
