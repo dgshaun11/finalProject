@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
-        String apiKey = "yp6s6jV7pkarYtIzWzlkF68pn3Jtzi57"; // polygon api key
+        String apiKey = ConfigLoader.getApiKey();
         StockApiService apiService = new StockApiService(apiKey);
         Portfolio portfolio = new Portfolio();
 
