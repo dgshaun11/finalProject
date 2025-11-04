@@ -7,36 +7,19 @@ public class Main {
         StockApiService apiService = new StockApiService(apiKey);
         Portfolio portfolio = new Portfolio();
 
-        PrintStream console = System.out;
+        Scanner scanner = new Scanner(System.in);
+        PrintWriter fileOut = new PrintWriter(new FileOutputStream("portfolio.txt", true)); // append mode
 
-        PrintStream fileOut = new PrintStream(new FileOutputStream("portfolio.txt", true));
-
-        PrintStream dualOutput = new PrintStream(new OutputStream() {
-            @Override
-            public void write(int b)   {
-                console.write(b);
-                fileOut.write(b);
-            }
-
-            @Override
-            public void flush()   {
-                console.flush();
-                fileOut.flush();
-            }
-        }, true);
-
-        System.setOut(dualOutput);
-
-        Scanner scanner;
         while (true) {
-            scanner = new Scanner(System.in);
             System.out.print("Enter the name of a stock: (q to quit) ");
             String companyName = scanner.nextLine();
-            if (companyName.equals("q")) {
+            if (companyName.equalsIgnoreCase("q")) {
                 break;
             }
+
             System.out.print("Enter your average price: ");
             double averagePrice = scanner.nextDouble();
+            scanner.nextLine();
 
             try {
                 System.out.println("Searching for ticker...");
@@ -44,7 +27,7 @@ public class Main {
 
                 if (ticker == null) {
                     System.out.println("Could not find a ticker for '" + companyName + "'.");
-                    return;
+                    continue;
                 }
 
                 System.out.println("Found ticker: " + ticker);
@@ -54,7 +37,7 @@ public class Main {
 
                 if (price < 0) {
                     System.out.println("Could not fetch price for ticker '" + ticker + "'.");
-                    return;
+                    continue;
                 }
 
                 Stock stock = new Stock(companyName, averagePrice, ticker, price);
@@ -64,11 +47,15 @@ public class Main {
                 portfolio.addStockToPortfolio(stock);
                 portfolio.printPortfolio();
 
+
+                fileOut.printf("Ticker: %s | Price: %.2f%n", ticker, price);
+                fileOut.flush();
+
             } catch (IOException | InterruptedException e) {
                 System.err.println("An error occurred while connecting to the API.");
             }
         }
-        System.setOut(console);
+
         fileOut.close();
         scanner.close();
     }
