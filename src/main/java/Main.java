@@ -55,7 +55,7 @@ public class Main {
                 portfolio.printPortfolio();
 
 
-                fileOut.printf("Ticker: %s | Price: %.2f%n", ticker, price);
+                fileOut.printf("Ticker: %s | Price: %.2f%n", ticker, averagePrice);
                 fileOut.flush();
 
             } catch (IOException | InterruptedException e) {
