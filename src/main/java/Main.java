@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -6,7 +7,7 @@ public class Main {
         String apiKey = ConfigLoader.getApiKey();
         StockApiService apiService = new StockApiService(apiKey);
         Portfolio portfolio = new Portfolio();
-
+        double averagePrice = 0.0;
         Scanner scanner = new Scanner(System.in);
         PrintWriter fileOut = new PrintWriter(new FileOutputStream("portfolio.txt", true)); // append mode
 
@@ -18,8 +19,14 @@ public class Main {
             }
 
             System.out.print("Enter your average price: ");
-            double averagePrice = scanner.nextDouble();
-            scanner.nextLine();
+            try {
+                averagePrice = scanner.nextDouble();
+                scanner.nextLine();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input entered");
+                scanner.nextLine();
+                continue;
+            }
 
             try {
                 System.out.println("Searching for ticker...");
